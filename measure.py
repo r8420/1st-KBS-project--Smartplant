@@ -33,8 +33,8 @@ sensor_name_3 = 'Licht'
 sensor_name_4 = 'Voedingsstoffen'
 # database connection configuration
 dbconfig = {
-    'user': 'richard',
-    'password': 'aardappel123',
+    'user': 'CHANGE',
+    'password': 'CHANGE',
     'host': 'localhost',
     'database': 'weerstation',
     'raise_on_warnings': True,
