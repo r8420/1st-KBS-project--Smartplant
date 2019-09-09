@@ -33,8 +33,11 @@ cursor = mariadb_connection.cursor(buffered=True)
 try:
     cursor.excute('CREATE DATABASE smartplant;')
     cursor.excute('USE smartplant;')
-    cursor.excute('CREATE TABLE info ('
-                  'name CHAR(20), temp CHAR (4), licht CHAR(10), vocht CHAR(5), ')
+    cursor.excute('CREATE TABLE info (naam CHAR(20), temp CHAR (5), licht CHAR(5), vocht CHAR(5), PRIMARY KEY (name));')
+    cursor.excute('INSERT INTO info (naam, temp, licht, vocht) VALUES (%s, %s, %s, %s);', ('naam', 'temp','licht','vocht'))
+    cursor.excute('INSERT INTO info (naam, temp, licht, vocht) VALUES (%s, %s, %s, %s);', ('naam', 'temp','licht','vocht'))
+    cursor.excute('INSERT INTO info (naam, temp, licht, vocht) VALUES (%s, %s, %s, %s);', ('naam', 'temp','licht','vocht'))
+    cursor.excute('INSERT INTO info (naam, temp, licht, vocht) VALUES (%s, %s, %s, %s);', ('naam', 'temp','licht','vocht'))
 
 except mariadb.Error as err:
     print("Error: {}".format(err))
