@@ -1,5 +1,25 @@
 <?php
 include('inc/header.php');
+include('inc/config.php');
+$plantNaam = $locatie = "";
+$message = "";
+
+if (isset($_POST['voeg'])){
+    $plantNaam = $_POST['plantNaam'];
+    $locatie = $_POST['locatie'];
+    if (empty($plantNaam && $locatie)){
+        $message = '<div class="alert alert-danger" role="alert">
+            Niet alle velden zijn ingevuld!
+        </div>';
+    }else{
+    $sql = "INSERT INTO plant (plantNaam, locatie) VALUES ('$plantNaam', '$locatie')";
+    $message = '<div class="alert alert-success" role="alert">
+           Uw favoriete plant is toegevoegd!
+        </div>';
+    if (mysqli_query($conn, $sql) == TRUE){
+    }}
+}
+
 ?>
     <div class="container">
         <div class="row mt-4 pt-5 pb-5 bg-white rounded d-flex justify-content-center">
@@ -8,19 +28,20 @@ include('inc/header.php');
                     alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title"><a>Uw favoriete plant toevoegen</a></h4>
+                    <?php echo $message; ?>
                     <p class="card-text">
-                        <form>
+                        <form method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Naam plant">
+                                <input type="text" name="plantNaam" class="form-control" placeholder="Naam plant">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Locatie plant">
+                                <input type="text" name="locatie" class="form-control" placeholder="Locatie plant">
                             </div>
                             <div class="form-group">
                                 <label for="plantUploaden">Plant foto uploaden</label>
-                                <input type="file" class="form-control-file" id="plantUploaden">
+                                <input name="foto" type="file" class="form-control-file" id="plantUploaden">
                             </div>
-                            <button type="submit" class="btn btn-primary">Voeg toe</button>
+                            <button name="voeg" type="submit" class="btn btn-primary">Voeg toe</button>
                         </form>
                     </p>
                 </div>

@@ -10,6 +10,8 @@ CREATE TABLE results (
   temp BOOLEAN,
   licht BOOLEAN,
   vocht BOOLEAN,
+  locatie VARCHAR(20),
+  foto VARCHAR(50),
   PRIMARY KEY (id)
 );
 
