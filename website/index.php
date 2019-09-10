@@ -4,7 +4,7 @@ include('inc/config.php');
 
 $alert = "";
 
-$sql = "SELECT id, plantNaam, locatie, temperatuur, vocht, licht, foto FROM plant WHERE 1";
+$sql = "SELECT id, naam, locatie, temp, vocht, licht, foto, tempC FROM plant WHERE 1";
 $result = mysqli_query($conn, $sql);
 
 
@@ -16,28 +16,26 @@ $result = mysqli_query($conn, $sql);
 ?>
             <div class="col-3">
               <div class="card mb-2 bg-white-transparent d-flex align-items-center">
-                <img class="card-img-top p-3 text-center" src="img/<?php echo $row['foto']; ?>" alt="Card image cap" style="width: 80%; height: 80%;">
+                <img class="card-img-top p-3 text-center" src="img/<?php echo $row['foto']; ?>" alt="<?php echo $row['naam']; ?>" style="width: 80%; height: 80%;">
                 <div class="card-body">
-                  <h4 class="card-title"><a><?php echo $row['plantNaam'] ?></a></h4>
+                  <h4 class="card-title"><a><?php echo $row['naam'] ?></a></h4>
                   <p class="card-text"><b>Locatie: </b><?php echo $row['locatie']; ?></p>
                   <ul class="list-group list-group-flush ">
-                    <li class="list-group-item bg-white-transparent-0"><b>Temperatuur: </b> <?php echo $row['temperatuur']; ?>&#x2103;</li>
+                    <li class="list-group-item bg-white-transparent-0"><b>Temperatuur: </b> <?php echo $row['temp']; ?>&#x2103;</li>
                     <li class="list-group-item bg-white-transparent-0"><b>Vocht: 
-                      <span class="
-                      <?php if ($row['vocht'] === "Voldoende"){
-                        echo "text-success";
-                      } else {
-                        echo "text-danger";
-                      } ?>">
-                        <?php echo $row['vocht']; ?></span></b></li>
+                      <?php if ($row['vocht'] === '0') {
+                        echo '<span class="text-success">Voldoende</span>';
+                      }else{
+                        echo '<span class="text-danger">Onvoldoende</span>';
+                      }?>
+                    </b></li>
                     <li class="list-group-item bg-white-transparent-0"><b>Licht: 
-                      <span class="
-                      <?php if ($row['licht'] === "Voldoende"){
-                        echo "text-success";
-                      } else {
-                        echo "text-danger";
-                      } ?>
-                      "><?php echo $row['licht']; ?></span></b></li>
+                    <?php if ($row['licht'] === '1') {
+                        echo '<span class="text-success">Voldoende</span>';
+                      }else{
+                        echo '<span class="text-danger">Onvoldoende</span>';
+                      }?>
+                    </b></li>
                   </ul>
                 </div>
               </div>
