@@ -34,7 +34,18 @@
                     function refresh() {
                       const date = new Date();
                       $('#Timestamp').html(`<small>Laatste refresh: ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}</small>`);
+
+                      fetch('.././MARIADB/throwdata.py')
+                      .then(response => response.json())
+                      .then(json => {
+                        //Use data fetched here
+                        console.log(json);
+                      });
                     }
+
+                    $(document).ready(() => {
+                      refresh();
+                    });
 
                     function pad(n){return n<10 ? '0'+n : n}
                   </script>
