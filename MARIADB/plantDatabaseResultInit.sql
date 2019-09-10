@@ -10,7 +10,7 @@ CREATE TABLE results (
   temp BOOLEAN,
   licht BOOLEAN,
   vocht BOOLEAN,
-  PRIMARY KEY (naam)
+  PRIMARY KEY (id)
 );
 
 CREATE USER 'smartplantRES'@'localhost' IDENTIFIED BY 'planten';
