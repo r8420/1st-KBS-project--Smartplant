@@ -12,7 +12,7 @@ CREATE TABLE planten(
 );
 
 CREATE TABLE meting(
-  id   int not null AUTO_INCREMENT,
+  id   int not null,
   naam CHAR(20),
   temp  VARCHAR(5),
   licht VARCHAR(5),

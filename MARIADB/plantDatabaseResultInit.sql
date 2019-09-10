@@ -4,6 +4,7 @@ CREATE DATABASE smartplantRES;
 USE smartplantRES;
 
 CREATE TABLE results (
+  id int not null,
   naam CHAR(20),
   tempC VARCHAR(5),
   temp BOOLEAN,

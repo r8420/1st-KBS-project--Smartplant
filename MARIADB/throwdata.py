@@ -17,7 +17,7 @@ mariadb_connection = mariadb.connect(
 cursor = mariadb_connection.cursor()
 
 # prepare a select query (only the 100 last items)
-stmt = "SELECT UNIX_TIMESTAMP(tijd) as unixtime, waarde FROM meting ORDER BY id ASC"
+stmt = "SELECT UNIX_TIMESTAMP(tijd) as unixtime, waarde FROM results ORDER BY id ASC"
 
 # execute the query (parameter must be a tuple)
 cursor.execute(stmt)
