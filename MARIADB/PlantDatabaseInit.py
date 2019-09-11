@@ -26,7 +26,7 @@ except mariadb.Error as err:
     elif err.errno == errorcode.ER_BAD_DB_ERROR:
         print("Database does not exist")
     else:
-        print("Error: {}".format(err))
+      print("Error: {}".format(err))
     sys.exit(2)
 
 cursor = mariadb_connection.cursor(buffered=True)
