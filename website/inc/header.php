@@ -4,7 +4,7 @@ session_start();
  
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: ../login.php");
+    header("location: login.php");
     exit;
 }
 
@@ -41,7 +41,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     </li>
                   </ul>
                   <span id="Timestamp" class="text-white mr-3"><small>Laatste refresh: 00:00:00</small></span>
-                  <button class="btn btn-success my-2 my-sm-0 mr-5" onclick="refresh()">Refresh</button>
+                  <button class="btn btn-success my-2 my-sm-0 mr-2" onclick="refresh()">Refresh</button>
+                  <a href="logout.php" class="btn btn-danger my-2 my-sm-0 mr-5" >Uitloggen</a>
                   <script>
                     function refresh() {
                       const date = new Date();

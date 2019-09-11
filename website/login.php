@@ -1,13 +1,10 @@
 <?php
-
 session_start();
 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: index.php");
     exit;
 }
-
-
 
 $err = "";
 
@@ -19,7 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $err = "Wachtwoord of Gebruiksnaam is onjuist!";
     }
     if ($wachtwoord == "SmartPlant" && $gebruiksnaam == "Admin"){
-        $err = "gegevens juist";
+        $_SESSION["loggedin"] = true;
+        $_SESSION["username"] = $gebruiksnaam;                            
+        header("location: index.php");
     }
 }
 
@@ -68,17 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
       <?php  echo $err; ?>
     <form class="form-signin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
   <img class="mb-4" src="img/plant.svg" alt="" width="72" height="72">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+  <h1 class="h3 mb-3 font-weight-normal">Inloggen</h1>
   <label for="inputEmail" class="sr-only">Gebruikersnaam</label>
   <input type="text" name="username" value="" id="inputEmail" class="form-control" placeholder="Gebruikersnaam" autofocus>
   <span class="help-block"></span>
-  <label for="inputPassword" class="sr-only">Password</label>
+  <label for="inputPassword" class="sr-only">Wachtwoord</label>
   <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit" name="login" value="Login">Sign in</button>
   <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
 </form>
