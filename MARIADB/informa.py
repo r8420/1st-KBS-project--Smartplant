@@ -22,4 +22,25 @@ cursor = mariadb_connection.cursor()
 # turn on autocommit
 #cursor.autocommit = True
 
-name = cursor.execute("SELECT ")
+id = cursor.execute("SELECT id FROM meting")
+name = cursor.execute("SELECT naam FROM meting ")
+temp = cursor.execute("SELECT temp FROM meting")
+vocht = cursor.execute("SELECT vocht FROM meting")
+licht = cursor.execute("SELECT licht FROM meting")
+
+namePlant = cursor.execute("SELECT naam FROM meting ")
+tempPlant = cursor.execute("SELECT temp FROM meting")
+vochtPlant = cursor.execute("SELECT vocht FROM meting")
+lichtPlant = cursor.execute("SELECT licht FROM meting")
+
+tempResult
+vochtResult
+lichtResult
+
+if name==namePlant :
+    if temp > tempPlant :
+        tempResult = True
+    else :
+        tempResult = False
+    if vocht> vochtPlant:
+        tempResult
