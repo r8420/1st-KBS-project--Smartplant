@@ -26,4 +26,4 @@ INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('calathea', '17', '2,
 INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('kwartjesplant', '12', '2,0', '55');
 INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('lepelplant','16','2,5','70');
 CREATE USER 'smartplantCMP'@'localhost' IDENTIFIED BY 'planten';
-GRANT INSERT ON smartplant.planten TO 'smartplantCMP'@'localhost';
+GRANT INSERT ON smartplantCMP.planten TO 'smartplantCMP'@'localhost';

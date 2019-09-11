@@ -22,3 +22,4 @@ cursor = mariadb_connection.cursor()
 # turn on autocommit
 #cursor.autocommit = True
 
+name = cursor.execute("SELECT ")
