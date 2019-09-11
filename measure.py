@@ -164,7 +164,7 @@ try:
 
         # store measurement in database
         try:
-            cursor.execute('UPDATE meting SET temp=%s, licht=%s, vocht=%s;', (temp, light, humidity))
+            cursor.execute('UPDATE meting SET temp=%s, licht=%s, vocht=%s WHERE id=%s;', (temp, light, humidity, input_id))
         except mariadb.Error as err:
             print("Error: {}".format(err))
 
