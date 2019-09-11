@@ -13,7 +13,7 @@ if (isset($_POST['voeg'])) {
             Niet alle velden zijn ingevuld!
         </div>';
     } else {
-        $sql = "INSERT INTO plant (naam, locatie, foto) VALUES ('$plantNaam', '$locatie', '$fotoPlaceholder')";
+        $sql = "INSERT INTO results (naam, locatie, foto) VALUES ('$plantNaam', '$locatie', '$fotoPlaceholder')";
         $message = '<div class="alert alert-success" role="alert">
            Uw favoriete plant is toegevoegd!
         </div>';

@@ -3,9 +3,13 @@ include('inc/header.php');
 include('inc/config.php');
 
 $alert = "";
+$id = "";
 
-$sql = "SELECT id, naam, locatie, temp, vocht, licht, foto, tempC FROM plant WHERE 1";
+$sql = "SELECT id, naam, locatie, temp, vocht, licht, foto, tempC FROM results WHERE 1";
 $result = mysqli_query($conn, $sql);
+
+
+
 
 
 ?>
@@ -13,8 +17,9 @@ $result = mysqli_query($conn, $sql);
         <div class="row mt-4">
         <?php if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)){
+      $id = $row['id'];
 ?>
-            <div class="col-3">
+            <div class="col-sm-3">
               <div class="card mb-2 bg-white-transparent d-flex align-items-center">
                 <img class="card-img-top p-3 text-center" src="img/<?php echo $row['foto']; ?>" alt="<?php echo $row['naam']; ?>" style="width: 80%; height: 80%;">
                 <div class="card-body">
@@ -36,12 +41,25 @@ $result = mysqli_query($conn, $sql);
                         echo '<span class="text-danger">Onvoldoende</span>';
                       }?>
                     </b></li>
+                    <li class="list-group-item bg-white-transparent-0">
+                      <form method="post" action="">
+                      <button class="btn btn-outline-danger btn-sm" type="submit" value="<?php echo $row['id']; ?>" name="verwijderen" onClick="refreshPage()">Plant verwijderen</button>
+                    </form>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
 
             <?php  } 
+}
+if (isset($_POST['verwijderen'])) {
+  $delete = "DELETE FROM results WHERE id=".$_POST['verwijderen'];
+  if(mysqli_query($conn, $delete)){
+    
+} else{
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($delete);
+}
 }
 ?> 
     </div>
