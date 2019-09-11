@@ -62,6 +62,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
                     function pad(n){return n<10 ? '0'+n : n}
                   </script>
+
+
+<script>
+function refreshPage(){
+    window.location.reload();
+} 
+</script>
                 </div>
               </nav>
               
