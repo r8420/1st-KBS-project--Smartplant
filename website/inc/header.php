@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: ../login.php");
+    exit;
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,7 +22,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     
-    <title>Hello, world!</title>
+    <title>SmartPlant Project</title>
   </head>
   <body class="bg-gainsboro">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
