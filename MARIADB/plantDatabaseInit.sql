@@ -21,9 +21,9 @@ CREATE TABLE meting(
 );
 
   
-INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('gatenplant', '20', '3,0', '60');
-INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('calathea', '17', '2,0', '50');
-INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('kwartjesplant', '12', '2,0', '55');
-INSERT INTO planten (id, naam, temp, licht, vocht) VALUES ('lepelplant','16','2,5','70');
+INSERT INTO planten (naam, temp, licht, vocht) VALUES ('gatenplant', '20', '3,0', '60');
+INSERT INTO planten (naam, temp, licht, vocht) VALUES ('calathea', '17', '2,0', '50');
+INSERT INTO planten (naam, temp, licht, vocht) VALUES ('kwartjesplant', '12', '2,0', '55');
+INSERT INTO planten (naam, temp, licht, vocht) VALUES ('lepelplant','16','2,5','70');
 CREATE USER 'smartplantCMP'@'localhost' IDENTIFIED BY 'planten';
-GRANT INSERT ON smartplantCMP.planten TO 'smartplantCMP'@'localhost';
+GRANT ALL PRIVILEGES ON smartplantCMP.* TO 'smartplantCMP'@'localhost';

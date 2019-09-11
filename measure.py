@@ -35,10 +35,10 @@ sensor_name_3 = 'Licht'
 sensor_name_4 = 'Voedingsstoffen'
 # database connection configuration
 dbconfig = {
-    'user': 'sensem',
-    'password': 'h@',
+    'user': 'smartplantCMP',
+    'password': 'planten',
     'host': 'localhost',
-    'database': 'smartplant',
+    'database': 'smartplantCMP',
     'raise_on_warnings': True,
 }
 
