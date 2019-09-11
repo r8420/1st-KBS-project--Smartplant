@@ -13,7 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $wachtwoord = $_POST['password'];
     
     if (empty($wachtwoord) || empty($gebruiksnaam)) {
-        $err = "Wachtwoord of Gebruiksnaam is onjuist!";
+        $err = '<div class="alert alert-danger" role="alert">
+        Gebruiksnaam of wachtwoord is onjuist!
+      </div>';
     }
     if ($wachtwoord == "SmartPlant" && $gebruiksnaam == "Admin"){
         $_SESSION["loggedin"] = true;
@@ -64,18 +66,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="login.css" rel="stylesheet">
   </head>
   <body class="text-center">
-      <?php  echo $err; ?>
+     
     <form class="form-signin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
   <img class="mb-4" src="img/plant.svg" alt="" width="72" height="72">
   <h1 class="h3 mb-3 font-weight-normal">Inloggen</h1>
+  <?php  echo $err; ?>
   <label for="inputEmail" class="sr-only">Gebruikersnaam</label>
   <input type="text" name="username" value="" id="inputEmail" class="form-control" placeholder="Gebruikersnaam" autofocus>
   <span class="help-block"></span>
   <label for="inputPassword" class="sr-only">Wachtwoord</label>
   <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-  <button class="btn btn-lg btn-primary btn-block" type="submit" name="login" value="Login">Sign in</button>
-  <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" name="login" value="Login">Inloggen</button>
+
 </form>
+
 
 </body>
 </html>
