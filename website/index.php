@@ -21,7 +21,7 @@ $result = mysqli_query($conn, $sql);
 ?>
             <div class="col-sm-3">
               <div class="card mb-2 bg-white-transparent d-flex align-items-center">
-                <img class="card-img-top p-3 text-center" src="img/<?php echo $row['foto']; ?>" alt="<?php echo $row['naam']; ?>" style="width: 80%; height: 80%;">
+                <img class="card-img-top p-3 text-center" src="img/uploads/<?php echo $row['foto']; ?>" alt="<?php echo $row['naam']; ?>" style="width: 80%; height: 80%;">
                 <div class="card-body">
                   <h4 class="card-title"><a><?php echo $row['naam'] ?></a></h4>
                   <p class="card-text"><b>Locatie: </b><?php echo $row['locatie']; ?></p>

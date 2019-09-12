@@ -20,13 +20,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inc/css/style.css">
     
     <title>SmartPlant Project</title>
   </head>
   <body class="bg-gainsboro">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand text-white" href="index.php">SmartPlant</a>
+                <a class="navbar-brand text-white" href="index.php">
+                <img src="img/logo.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">SmartPlant</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
