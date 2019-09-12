@@ -6,7 +6,6 @@ import mysql.connector as errorcode
 verbose = True
 
 
-
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("connected ok")
@@ -15,11 +14,11 @@ def on_connect(client, userdata, flags, rc):
         sys.exit(2)
 
 
-host = "localhost"
-# host = "192.168.137.102"
+# host = "localhost"
+host = "192.168.137.102"
 client = mqtt.Client("PublishClient")
+client.username_pw_set("Richard", password="pi")
 client.on_connect = on_connect
-# client.username_pw_set("Richard", password="pi")
 client.connect(host)
 time.sleep(4)
 
@@ -55,6 +54,7 @@ try:
         id = cursor.fetchone()[0]
         cursor.execute("SELECT naam FROM meting ")
         measurename = cursor.fetchone()[0]
+        print(measurename)
         cursor.execute("SELECT temp FROM meting")
         temp = cursor.fetchone()[0]
         cursor.execute("SELECT vocht FROM meting")
@@ -62,13 +62,13 @@ try:
         cursor.execute("SELECT licht FROM meting")
         licht = cursor.fetchone()[0]
 
-        cursor.execute("SELECT naam FROM planten WHERE naam ='%s' ;",(measurename))
+        cursor.execute("SELECT naam FROM planten WHERE naam =%s ;", [measurename])
         namePlant = cursor.fetchone()[0]
-        cursor.execute("SELECT temp FROM planten WHERE naam ='%s' ;",(measurename))
+        cursor.execute("SELECT temp FROM planten WHERE naam =%s ;", [measurename])
         tempPlant = cursor.fetchone()[0]
-        cursor.execute("SELECT vocht FROM planten WHERE naam ='%s' ;",(measurename))
+        cursor.execute("SELECT vocht FROM planten WHERE naam =%s ;", [measurename])
         vochtPlant = cursor.fetchone()[0]
-        cursor.execute("SELECT licht FROM planten WHERE naam ='%s' ;",(measurename))
+        cursor.execute("SELECT licht FROM planten WHERE naam =%s ;", [measurename])
         lichtPlant = cursor.fetchone()[0]
 
         tempResult = None
@@ -89,7 +89,7 @@ try:
             else:
                 lichtResult = False
 
-            sendResult = str.format("id={},naam={},temp={},licht={},vocht={}", id, name, tempResult, lichtResult,
+            sendResult = str.format("id={},naam={},temp={},tempResult={},licht={},vocht={}", id, measurename, temp, tempResult, lichtResult,
                                     vochtResult)
             # TODO: Replace this with the values of the measurements
             client.publish("test/message", sendResult)

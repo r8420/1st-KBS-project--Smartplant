@@ -1,5 +1,3 @@
-#NOTE: Only for the hosting PI
-
 import paho.mqtt.client as mqtt
 import mysql.connector as mariadb
 from mysql.connector import errorcode
@@ -8,10 +6,10 @@ import time
 #-----------Database stuff--------------
 
 dbconfig = {
-    'user': 'sensem',
-    'password': 'h@',
+    'user': 'smartplantRES',
+    'password': 'planten',
     'host': 'localhost',
-    'database': 'smartplant',
+    'database': 'smartplantRES',
     'raise_on_warnings': True
 }
 
@@ -61,10 +59,11 @@ def on_message(client, userdata, message):
         #value is the column value
         value = column_data.split('=')[1]
 
-        #Insert the values into the database, and if they already exist, update them
-        cursor.execute("INSERT INTO meting (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s=%s", (key, value, key, value))
-
         print("key: %s, value: %s" % (key, value))
+        #Insert the values into the database, and if they already exist, update them
+        cursor.execute("INSERT INTO result (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s=%s", (key, value, key, value))
+
+        
 
     
 
@@ -73,7 +72,7 @@ Connected = False
 host="192.168.137.102"
 #host = "localhost"
 client = mqtt.Client("SubscriberClient")
-#client.username_pw_set("Richard", password="pi")
+client.username_pw_set("Richard", password="pi")
 client.on_message = on_message
 client.on_connect = on_connect
 client.connect(host)
