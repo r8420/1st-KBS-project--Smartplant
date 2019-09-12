@@ -25,9 +25,10 @@ import mysql.connector as mariadb
 from mysql.connector import errorcode
 
 
-
 def stop():
     exit()
+
+
 # sensor name
 sensor_name_1 = 'Temperatuur'
 sensor_name_2 = 'Luchtvochtigheid'
@@ -44,7 +45,7 @@ dbconfig = {
 
 # parse arguments
 verbose = True
-interval = 10 # second
+interval = 10  # second
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "vt:")
@@ -102,8 +103,6 @@ if row_count == 0:
     mariadb_connection.commit()
     print("ok.")
 
-
-
 # infinite loop
 try:
     while True:
@@ -130,58 +129,59 @@ try:
         cursor = mariadb_connection.cursor(buffered=True)
 
         # turn on autocommit
-        #cursor.autocommit = True
-
+        # cursor.autocommit = True
 
         # measure temperature
         temp = round(sh.get_temperature(), 2)
 
         tFile = open('/sys/class/thermal/thermal_zone0/temp')
         tempf = float(tFile.read())
-        tempC = tempf/1000
+        tempC = tempf / 1000
         if tempC > 50:
-            temp = temp-18.5
+            temp = temp - 18.5
         else:
-            temp = temp-5
+            temp = temp - 5
         temp = round(temp, 2)
 
         # measure humidity
-        humidity = round(sh.get_humidity(), 2)
+        humidity = round(sh.get_humidity(), 2) + 30
+        if humidity > 100:
+            humidity = 100
 
-        # calculate light hours
-        datetime_now = datetime.datetime.now()
-        struct_time_sunrise = time.strptime(datetime.datetime.now().strftime('%Y/%m/%d 07:04:00'),"%Y/%m/%d %H:%M:%S")
-        datetime_sunrise = datetime.datetime.fromtimestamp(time.mktime(struct_time_sunrise))
+    # calculate light hours
+    datetime_now = datetime.datetime.now()
+    struct_time_sunrise = time.strptime(datetime.datetime.now().strftime('%Y/%m/%d 07:04:00'), "%Y/%m/%d %H:%M:%S")
+    datetime_sunrise = datetime.datetime.fromtimestamp(time.mktime(struct_time_sunrise))
 
-        difference = datetime_now-datetime_sunrise
-        light = round(difference.total_seconds() / 3600,2)
+    difference = datetime_now - datetime_sunrise
+    light = round(difference.total_seconds() / 3600, 2)
 
-        # verbose
+    # verbose
+    if verbose:
+        print("Temperature: %s C" % temp)
+        print("Humidity: %s %%" % humidity)
+        print("Light hours: %s hours" % light)
+
+    # store measurement in database
+    try:
+        cursor.execute('UPDATE meting SET temp=%s, licht=%s, vocht=%s WHERE id=%s;', (temp, light, humidity, input_id))
+    except mariadb.Error as err:
+        print("Error: {}".format(err))
+
+    else:
+        # commit measurements
+        mariadb_connection.commit()
+
         if verbose:
-            print("Temperature: %s C" % temp)
-            print("Humidity: %s %%" % humidity)
-            print("Light hours: %s hours" % light)
+            print("Temperature committed")
 
-        # store measurement in database
-        try:
-            cursor.execute('UPDATE meting SET temp=%s, licht=%s, vocht=%s WHERE id=%s;', (temp, light, humidity, input_id))
-        except mariadb.Error as err:
-            print("Error: {}".format(err))
-
-        else:
-            # commit measurements
-            mariadb_connection.commit()
-
-            if verbose:
-                print("Temperature committed")
-
-            # close db connection
-            cursor.close()
-            mariadb_connection.close()
-            time.sleep(interval)
+        # close db connection
+        cursor.close()
+        mariadb_connection.close()
+        time.sleep(interval)
 
 except KeyboardInterrupt:
-    pass
+pass
 # close db connection
 mariadb_connection.close()
 # done
