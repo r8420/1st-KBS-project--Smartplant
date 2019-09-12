@@ -16,4 +16,4 @@ CREATE TABLE results (
 );
 
 CREATE USER 'smartplantRES'@'localhost' IDENTIFIED BY 'planten';
-GRANT INSERT ON smartplant.planten TO 'smartplantRES'@'localhost';
+GRANT ALL PRIVILEGES ON smartplantRES.results TO 'smartplantRES'@'localhost';
