@@ -63,12 +63,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
       }
     </style>
     <!-- Custom styles for this template -->
-    <link href="login.css" rel="stylesheet">
+    <link href="inc/css/login.css" rel="stylesheet">
   </head>
   <body class="text-center">
      
     <form class="form-signin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-  <img class="mb-4" src="img/plant.svg" alt="" width="72" height="72">
+  <img class="mb-4" src="img/logo.svg" alt="" width="72" height="72">
   <h1 class="h3 mb-3 font-weight-normal">Inloggen</h1>
   <?php  echo $err; ?>
   <label for="inputEmail" class="sr-only">Gebruikersnaam</label>

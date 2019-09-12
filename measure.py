@@ -2,26 +2,21 @@
 
 #
 # NAME
-#	measure.py - script to store sense hat measurements in SQL database
-#
-# SYNOPSIS
-#	measure.py [-v] [-t interval]
-#		-v: verbose
-#		-t interval: sample every interval seconds
+# measure.py - script to store sense hat measurements in SQL database
 #
 # DESCRIPTION
-#	measures temperature data from the raspbery pi sense hat and
-#	store data in a local SQL database
+# measures temperature, humidity and light hours from the raspbery pi sense hat and
+# store data in a local SQL database
 #
 
 # import some modules
 import datetime
-import sys
 import getopt
-import sense_hat
+import sys
 import time
 
 import mysql.connector as mariadb
+import sense_hat
 from mysql.connector import errorcode
 
 
@@ -29,11 +24,6 @@ def stop():
     exit()
 
 
-# sensor name
-sensor_name_1 = 'Temperatuur'
-sensor_name_2 = 'Luchtvochtigheid'
-sensor_name_3 = 'Licht'
-sensor_name_4 = 'Voedingsstoffen'
 # database connection configuration
 dbconfig = {
     'user': 'smartplantCMP',
@@ -93,15 +83,26 @@ except mariadb.Error as err:
 row_count = cursor.rowcount
 if row_count == 0:
 
-    print("Vul de naam van deze sensor in:")
+    print("Vul de naam van deze plant in:")
     input_name = input()
-    print("Er wordt een sensor toegevoegd.")
+    print("Er wordt een sensor voor plant: %s toegevoegd." % input_name)
+    try:
+        cursor.execute("SELECT naam FROM planten WHERE naam=%s", [input_name])
+    except mariadb.Error as err:
+        print("Error: {}".format(err))
+        sys.exit(2)
+    row_count_plant = cursor.rowcount
+    if row_count_plant == 0:
+        input(
+            "[ERROR] Er bestaat nog geen plant met de naam '%s' in de tabel planten. Druk op Enter om toch door te "
+            "gaan." % input_name)
+
     try:
         cursor.execute('INSERT INTO meting (naam, id) VALUES (%s, %s);', (input_name, input_id))
     except mariadb.Error as err:
         print("Error: {}".format(err))
     mariadb_connection.commit()
-    print("ok.")
+    print("Success. Selected plant name: %s with id: %d" % (input_name, int(input_id)))
 
 # infinite loop
 try:
@@ -144,44 +145,45 @@ try:
         temp = round(temp, 2)
 
         # measure humidity
-        humidity = round(sh.get_humidity(), 2) + 30
+        humidity = round((sh.get_humidity() + 30), 2)
         if humidity > 100:
             humidity = 100
 
-    # calculate light hours
-    datetime_now = datetime.datetime.now()
-    struct_time_sunrise = time.strptime(datetime.datetime.now().strftime('%Y/%m/%d 07:04:00'), "%Y/%m/%d %H:%M:%S")
-    datetime_sunrise = datetime.datetime.fromtimestamp(time.mktime(struct_time_sunrise))
+        # calculate light hours
+        datetime_now = datetime.datetime.now()
+        struct_time_sunrise = time.strptime(datetime.datetime.now().strftime('%Y/%m/%d 07:04:00'), "%Y/%m/%d %H:%M:%S")
+        datetime_sunrise = datetime.datetime.fromtimestamp(time.mktime(struct_time_sunrise))
 
-    difference = datetime_now - datetime_sunrise
-    light = round(difference.total_seconds() / 3600, 2)
+        difference = datetime_now - datetime_sunrise
+        light = round(difference.total_seconds() / 3600, 2)
 
-    # verbose
-    if verbose:
-        print("Temperature: %s C" % temp)
-        print("Humidity: %s %%" % humidity)
-        print("Light hours: %s hours" % light)
-
-    # store measurement in database
-    try:
-        cursor.execute('UPDATE meting SET temp=%s, licht=%s, vocht=%s WHERE id=%s;', (temp, light, humidity, input_id))
-    except mariadb.Error as err:
-        print("Error: {}".format(err))
-
-    else:
-        # commit measurements
-        mariadb_connection.commit()
-
+        # verbose
         if verbose:
-            print("Temperature committed")
+            print("Temperature: %s C" % temp)
+            print("Humidity: %s %%" % humidity)
+            print("Light hours: %s hours" % light)
 
-        # close db connection
-        cursor.close()
-        mariadb_connection.close()
-        time.sleep(interval)
+        # store measurement in database
+        try:
+            cursor.execute('UPDATE meting SET temp=%s, licht=%s, vocht=%s WHERE id=%s;',
+                           (temp, light, humidity, input_id))
+        except mariadb.Error as err:
+            print("Error: {}".format(err))
+
+        else:
+            # commit measurements
+            mariadb_connection.commit()
+
+            if verbose:
+                print("Data committed to database.")
+
+            # close db connection
+            cursor.close()
+            mariadb_connection.close()
+            time.sleep(interval)
 
 except KeyboardInterrupt:
-pass
+    pass
 # close db connection
 mariadb_connection.close()
 # done
