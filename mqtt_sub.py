@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 import mysql.connector as mariadb
 from mysql.connector import errorcode
 import time
+import sys
 
 #-----------Database stuff--------------
 
@@ -16,7 +17,7 @@ dbconfig = {
 try:
     mariadb_connection = mariadb.connect(**dbconfig)
     print("Database connected")
-except mariadb.connector.Error as err:
+except mariadb.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print("Something is wrong with your user name or password")
     elif err.errno == errorcode.ER_BAD_DB_ERROR:
